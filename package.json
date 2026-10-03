@@ -1,0 +1,29 @@
+{
+  "name": "alap-admin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-is": "^19.2.0",
+    "recharts": "latest"
+  },
+  "devDependencies": {
+    "@types/react-is": "^19",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "latest",
+    "typescript": "^5.9.3"
+  }
+}
