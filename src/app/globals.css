@@ -53,17 +53,17 @@ aside {
   gap: 12px;
   padding: 0 8px 30px;
 }
-.logo > span,
-.brandMark {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  color: #fff;
-  font-weight: 800;
-  font-size: 22px;
+.brandLogo {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.headerBrand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 .logo div {
   display: flex;
@@ -438,4 +438,145 @@ td small {
 
 a.nav {
   text-decoration: none;
+}
+
+select {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 13px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+.profileGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+  gap: 18px;
+}
+.profileGrid .panel {
+  margin-top: 0;
+}
+.profileTitle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.profileTitle .pill {
+  margin-left: auto;
+}
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: #efefff;
+  color: var(--brand);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 800;
+}
+.detailList {
+  margin-top: 22px;
+  display: grid;
+  gap: 12px;
+}
+.detailList p {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+}
+.detailList span {
+  color: var(--muted);
+}
+.stackActions {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+.stackActions button,
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.stackActions svg,
+.backButton svg {
+  width: 17px;
+  height: 17px;
+}
+.deleteButton {
+  background: var(--danger);
+  color: #fff;
+}
+.backButton {
+  width: max-content;
+  background: transparent;
+  color: var(--muted);
+  padding-left: 0;
+  margin-bottom: 12px;
+}
+.userStats {
+  margin-top: 18px;
+}
+.innerTable {
+  box-shadow: none;
+  margin-top: 16px;
+}
+code {
+  font-size: 11px;
+  white-space: normal;
+  word-break: break-word;
+}
+@media (max-width: 900px) {
+  .profileGrid {
+    grid-template-columns: 1fr;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+  }
+  .toolbar .search {
+    min-width: 100%;
+  }
+}
+
+.passwordField {
+  display: grid;
+  gap: 7px;
+}
+.passwordInput {
+  position: relative;
+}
+.passwordInput input {
+  width: 100%;
+  padding-right: 48px;
+}
+.loginCard .passwordToggle {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+}
+.passwordToggle svg {
+  width: 20px;
+  height: 20px;
+}
+.passwordToggle:hover {
+  color: var(--brand);
+}
+.passwordToggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: -2px;
 }

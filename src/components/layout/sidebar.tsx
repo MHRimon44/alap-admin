@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
+import BrandLogo from "@/components/brand-logo";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Activity,
+  ClipboardList,
   LayoutDashboard,
   LogOut,
   Users,
@@ -11,6 +13,7 @@ import { logout } from "@/features/auth/actions";
 const links = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/users", label: "Users", icon: Users },
+  { href: "/audit", label: "Audit log", icon: ClipboardList },
   { href: "/system", label: "System health", icon: Activity },
 ];
 export default function Sidebar() {
@@ -19,7 +22,7 @@ export default function Sidebar() {
   return (
     <aside>
       <div className="logo">
-        <span>A</span>
+        <BrandLogo />
         <div>
           <b>Alap</b>
           <small>Admin</small>
@@ -35,8 +38,6 @@ export default function Sidebar() {
               href={href}
               className={active ? "nav active" : "nav"}
               aria-current={active ? "page" : undefined}
-              aria-label={label}
-              title={label}
             >
               <Icon />
               {label}
@@ -47,7 +48,6 @@ export default function Sidebar() {
       <button
         type="button"
         className="logout"
-        aria-label="Sign out"
         onClick={() => {
           logout();
           router.replace("/login");

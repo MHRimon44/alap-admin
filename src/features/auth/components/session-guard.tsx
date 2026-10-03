@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import BrandLogo from "@/components/brand-logo";
 import { useRouter } from "next/navigation";
 import { token, clearToken } from "@/lib/api";
 import { validateSession } from "../actions";
@@ -33,6 +34,7 @@ export default function SessionGuard({
   if (!authed)
     return (
       <div className="center">
+        <BrandLogo size={64} />
         <div className="spinner" />
         <h2>Opening Alap Admin</h2>
       </div>

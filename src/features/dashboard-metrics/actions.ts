@@ -6,5 +6,8 @@ export function getDashboardMetrics() {
     disabledUsers: number;
     newUsersToday: number;
     activeSessions: number;
+    conversations: number;
+    messages: number;
+    reactions: number;
   }>("/v1/admin/dashboard");
 }

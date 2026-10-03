@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import BrandLogo from "@/components/brand-logo";
 import { useRouter } from "next/navigation";
 import { login } from "../actions";
 import { clearToken } from "@/lib/api";
@@ -7,6 +9,7 @@ export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -31,7 +34,7 @@ export default function LoginForm() {
   return (
     <>
       <section className="loginCard">
-        <div className="brandMark">A</div>
+        <BrandLogo size={64} className="brandMark" />
 
         <p className="eyebrow">ALAP OPERATIONS</p>
 
@@ -51,16 +54,28 @@ export default function LoginForm() {
             />
           </label>
 
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
-          </label>
+          <div className="passwordField">
+            <label htmlFor="password">Password</label>
+            <div className="passwordInput">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="passwordToggle"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-controls="password"
+                onClick={() => setShowPassword((visible) => !visible)}
+              >
+                {showPassword ? <EyeOff aria-hidden="true" /> : <Eye aria-hidden="true" />}
+              </button>
+            </div>
+          </div>
 
           {error && <div className="error">{error}</div>}
 
