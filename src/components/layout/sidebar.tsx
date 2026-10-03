@@ -10,6 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { logout } from "@/features/auth/actions";
+import { ThemeToggle } from "./theme-toggle";
 const links = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/users", label: "Users", icon: Users },
@@ -45,17 +46,20 @@ export default function Sidebar() {
           );
         })}
       </nav>
-      <button
-        type="button"
-        className="logout"
-        onClick={() => {
-          logout();
-          router.replace("/login");
-        }}
-      >
-        <LogOut />
-        Sign out
-      </button>
+      <div className="sidebarFooter">
+        <ThemeToggle />
+        <button
+          type="button"
+          className="logout"
+          onClick={() => {
+            logout();
+            router.replace("/login");
+          }}
+        >
+          <LogOut />
+          Sign out
+        </button>
+      </div>
     </aside>
   );
 }
