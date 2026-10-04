@@ -7,6 +7,7 @@ import {
   ClipboardList,
   LayoutDashboard,
   LogOut,
+  KeyRound,
   Users,
 } from "lucide-react";
 import { logout } from "@/features/auth/actions";
@@ -16,6 +17,7 @@ const links = [
   { href: "/users", label: "Users", icon: Users },
   { href: "/audit", label: "Audit log", icon: ClipboardList },
   { href: "/system", label: "System health", icon: Activity },
+  { href: "/security", label: "Security", icon: KeyRound },
 ];
 export default function Sidebar() {
   const pathname = usePathname();

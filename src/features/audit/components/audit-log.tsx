@@ -6,6 +6,7 @@ import { formatDate } from "@/utils/format-date";
 const labels: Record<AuditItem["action"], string> = {
   "user.status_changed": "User status changed",
   "user.sessions_revoked": "Sessions revoked",
+  "user.password_reset": "User password reset",
   "user.deleted": "User deleted",
 };
 export default function AuditLog() {

@@ -38,3 +38,10 @@ export function deleteUser(id: string) {
     },
   );
 }
+
+export function resetUserPassword(id: string, password: string) {
+  return request<{ reset: true; revoked: number }>(
+    `/v1/admin/users/${encodeURIComponent(id)}/reset-password`,
+    { method: "POST", body: JSON.stringify({ password }) },
+  );
+}

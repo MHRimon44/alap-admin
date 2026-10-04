@@ -8,10 +8,11 @@ import {
   MessageCircle,
   MessagesSquare,
   ShieldCheck,
+  KeyRound,
   Trash2,
   Wifi,
 } from "lucide-react";
-import { deleteUser, getUser, revokeSessions, updateStatus } from "../actions";
+import { deleteUser, getUser, resetUserPassword, revokeSessions, updateStatus } from "../actions";
 import type { AdminUserDetails } from "../types";
 import { formatDate } from "@/utils/format-date";
 
@@ -20,6 +21,9 @@ export default function UserProfile({ id }: { id: string }) {
   const [details, setDetails] = useState<AdminUserDetails | null>(null);
   const [message, setMessage] = useState("Loading user…");
   const [busy, setBusy] = useState(false);
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   async function reload() {
     setDetails(await getUser(id));
   }
@@ -70,6 +74,30 @@ export default function UserProfile({ id }: { id: string }) {
       await reload();
     } catch (error) {
       window.alert(error instanceof Error ? error.message : "Action failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function resetPassword() {
+    if (newPassword.length < 6) {
+      window.alert("Password must be at least 6 characters.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      window.alert("Passwords do not match.");
+      return;
+    }
+    if (!window.confirm(`Reset password for ${user.displayName}? All active sessions will be revoked.`)) return;
+    setBusy(true);
+    try {
+      const result = await resetUserPassword(id, newPassword);
+      setNewPassword("");
+      setConfirmPassword("");
+      setShowPasswordReset(false);
+      window.alert(`Password changed. Revoked ${result.revoked} active session(s).`);
+      await reload();
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "Password reset failed");
     } finally {
       setBusy(false);
     }
@@ -139,6 +167,38 @@ export default function UserProfile({ id }: { id: string }) {
             Administrative actions are written to the audit log.
           </p>
           <div className="stackActions">
+            <button
+              type="button"
+              className="secondary"
+              disabled={busy}
+              onClick={() => setShowPasswordReset((value) => !value)}
+            >
+              <KeyRound /> Change user password
+            </button>
+            {showPasswordReset && (
+              <div className="passwordBox">
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="New password"
+                  value={newPassword}
+                  onChange={(event) => setNewPassword(event.target.value)}
+                  disabled={busy}
+                />
+                <input
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="Confirm new password"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  disabled={busy}
+                />
+                <button type="button" className="primary" disabled={busy} onClick={() => void resetPassword()}>
+                  Reset password
+                </button>
+                <p className="muted">The user will be signed out from all devices.</p>
+              </div>
+            )}
             <button
               type="button"
               className="secondary"

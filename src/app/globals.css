@@ -718,3 +718,5 @@ code {
     width: auto;
   }
 }
+
+.passwordBox,.passwordForm{display:flex;flex-direction:column;gap:12px;margin-top:12px}.passwordBox input,.passwordForm input{width:100%;margin-top:6px}.passwordForm label{display:flex;flex-direction:column;font-size:13px;font-weight:600;gap:2px}.securityPanel{max-width:620px}.formError{color:#dc2626;font-size:13px;margin:0}.passwordForm .primary,.passwordBox .primary{align-self:flex-start}

@@ -23,3 +23,11 @@ export function logout() {
 export function validateSession() {
   return request("/v1/admin/me");
 }
+
+export async function changePassword(currentPassword: string, newPassword: string) {
+  await request<void>("/v1/auth/password/change", {
+    method: "POST",
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+  clearToken();
+}
