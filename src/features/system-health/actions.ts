@@ -4,5 +4,8 @@ export function getSystemHealth() {
     ready: boolean;
     checks: { mongo: string; redis: string };
     uptimeSeconds: number;
-  }>("/v1/admin/system/health");
+  }>("/v1/admin/system/health", {
+    cache: "no-store",
+    signal: AbortSignal.timeout(15_000),
+  });
 }

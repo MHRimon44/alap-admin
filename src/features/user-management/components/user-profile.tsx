@@ -122,14 +122,19 @@ export default function UserProfile({ id }: { id: string }) {
   }
   return (
     <>
-      <button
-        type="button"
-        className="backButton"
-        onClick={() => router.push("/users")}
-      >
-        <ArrowLeft /> Back to users
-      </button>
-      <Header title={user.displayName} sub={user.email} />
+      <Header
+        title={user.displayName}
+        sub={user.email}
+        actions={
+          <button
+            type="button"
+            className="backButton"
+            onClick={() => router.push("/users")}
+          >
+            <ArrowLeft /> Back to users
+          </button>
+        }
+      />
       <div className="profileGrid">
         <section className="panel profileCard">
           <div className="profileTitle">

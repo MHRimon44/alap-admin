@@ -9,7 +9,9 @@ export default function DashboardLayout({
     <SessionGuard>
       <div className="shell">
         <Sidebar />
-        <main className="main">{children}</main>
+        <main className="main">
+          <div className="pageTemplate">{children}</div>
+        </main>
       </div>
     </SessionGuard>
   );

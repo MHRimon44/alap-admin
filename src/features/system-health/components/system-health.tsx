@@ -9,17 +9,23 @@ export default function System() {
   > | null>(null);
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [lastChecked, setLastChecked] = useState<Date | null>(null);
 
   async function refreshHealth() {
+    setLoading(true);
     try {
       setError("");
 
       const result = await getSystemHealth();
       setHealth(result);
+      setLastChecked(new Date());
     } catch (error: unknown) {
       setError(
         error instanceof Error ? error.message : "Failed to load system health",
       );
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -30,6 +36,7 @@ export default function System() {
       .then((result) => {
         if (!cancelled) {
           setHealth(result);
+          setLastChecked(new Date());
         }
       })
       .catch((error: unknown) => {
@@ -40,6 +47,9 @@ export default function System() {
               : "Failed to load system health",
           );
         }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
       });
 
     return () => {
@@ -55,34 +65,45 @@ export default function System() {
       />
 
       <div className="grid">
-        <Health label="API" ok={Boolean(health?.ready)} />
+        <Health label="API" ok={health ? Boolean(health.ready) : null} />
 
-        <Health label="MongoDB" ok={health?.checks.mongo === "up"} />
+        <Health label="MongoDB" ok={health ? health.checks.mongo === "up" : null} />
 
-        <Health label="Redis" ok={health?.checks.redis === "up"} />
+        <Health label="Redis" ok={health ? health.checks.redis === "up" : null} />
       </div>
 
-      <section className="panel">
+      <section className="panel" aria-busy={loading}>
         <h2>Runtime</h2>
 
         <p>
           Uptime:{" "}
           <b>
-            {health ? `${Math.floor(health.uptimeSeconds / 60)} minutes` : "—"}
+            {health
+              ? `${Math.floor(health.uptimeSeconds / 60)} minutes ${Math.floor(health.uptimeSeconds % 60)} seconds`
+              : "—"}
           </b>
         </p>
 
-        <button type="button" onClick={() => void refreshHealth()}>
-          Refresh health
+        <button type="button" disabled={loading} onClick={() => void refreshHealth()}>
+          {loading ? "Refreshing…" : "Refresh health"}
         </button>
 
-        {error && <div className="error">{error}</div>}
+        <p className="muted healthRefreshStatus" role="status" aria-live="polite">
+          {loading
+            ? "Checking system health…"
+            : error
+              ? "Health check failed. Try refreshing again."
+              : lastChecked
+                ? `Health updated at ${lastChecked.toLocaleTimeString()}.`
+                : ""}
+        </p>
+        {error && <div className="error" role="alert">{error}</div>}
       </section>
     </>
   );
 }
 
-function Health({ label, ok }: { label: string; ok: boolean }) {
+function Health({ label, ok }: { label: string; ok: boolean | null }) {
   return (
     <article className="metric">
       <div className="metricIcon">
@@ -92,8 +113,8 @@ function Health({ label, ok }: { label: string; ok: boolean }) {
       <div>
         <span>{label}</span>
 
-        <strong className={ok ? "ok" : "bad"}>
-          {ok ? "Healthy" : "Unavailable"}
+        <strong className={ok === null ? "muted" : ok ? "ok" : "bad"}>
+          {ok === null ? "—" : ok ? "Healthy" : "Unavailable"}
         </strong>
       </div>
     </article>

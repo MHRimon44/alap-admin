@@ -50,14 +50,14 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+      className="themeToggle"
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {isDark ? (
-        <Sun className="h-5 w-5" />
+        <Sun aria-hidden="true" />
       ) : (
-        <Moon className="h-5 w-5" />
+        <Moon aria-hidden="true" />
       )}
 
       <span>{isDark ? 'Light mode' : 'Dark mode'}</span>

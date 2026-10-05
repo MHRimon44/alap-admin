@@ -1,4 +1,7 @@
 :root {
+  --page-gap: 24px;
+  --page-padding: 42px;
+  --panel-padding: 24px;
   --bg: #f6f7fb;
   --card: #fff;
   --text: #151821;
@@ -43,7 +46,7 @@ button {
 .shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 250px minmax(0, 1fr);
 }
 aside {
   background: var(--sidebar-bg);
@@ -82,7 +85,8 @@ aside {
   color: var(--sidebar-muted);
 }
 .nav,
-.logout {
+.logout,
+.themeToggle {
   width: 100%;
   border: 0;
   background: transparent;
@@ -93,13 +97,23 @@ aside {
   gap: 11px;
   align-items: center;
   text-align: left;
-  margin: 3px 0;
+  margin: 0;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 600;
 }
 .nav svg,
 .logout svg,
+.themeToggle svg,
 .actions svg {
   width: 18px;
   height: 18px;
+  flex-shrink: 0;
+}
+aside nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .nav:hover {
   background: var(--sidebar-hover);
@@ -113,13 +127,36 @@ aside {
   margin-top: auto;
 }
 .main {
-  padding: 42px;
+  padding: var(--page-padding);
+  min-width: 0;
   max-width: 1450px;
   width: 100%;
-  margin: auto;
+  margin: 0 auto;
 }
-header {
-  margin-bottom: 28px;
+.pageTemplate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-gap);
+  min-width: 0;
+}
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--page-gap);
+}
+.pageHeading {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.headerActions {
+  flex-shrink: 0;
+}
+.headerActions .backButton {
+  margin: 0;
+}
+.panel h2 {
+  margin: 0 0 12px;
 }
 h1 {
   font-size: 32px;
@@ -160,10 +197,13 @@ h2 {
   display: flex;
   gap: 14px;
   align-items: center;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .metricIcon {
   width: 42px;
   height: 42px;
+  flex-shrink: 0;
   border-radius: 13px;
   background: #efefff;
   color: var(--brand);
@@ -185,7 +225,7 @@ h2 {
 }
 .panel {
   border-radius: 18px;
-  padding: 24px;
+  padding: var(--panel-padding);
   margin-top: 18px;
 }
 .toolbar {
@@ -220,6 +260,8 @@ input {
   border: 0;
   padding: 12px 0;
   flex: 1;
+  width: 100%;
+  min-width: 0;
 }
 .search:focus-within,
 input:focus {
@@ -313,6 +355,13 @@ td small {
 .bad {
   color: var(--danger);
 }
+.healthRefreshStatus {
+  margin-top: 12px;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
 .loginPage,
 .center {
   min-height: 100vh;
@@ -383,8 +432,8 @@ td small {
     font-size: 0;
     justify-content: center;
   }
-  .main {
-    padding: 28px 18px;
+  :root {
+    --page-padding: 28px 18px;
   }
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -410,18 +459,40 @@ td small {
   .logo div {
     display: none;
   }
-  nav {
-    display: flex;
+  aside nav {
+    flex-direction: row;
   }
   .nav {
+    flex: 1;
     width: auto;
   }
   .logout {
     width: auto;
     margin: 0;
   }
-  .main {
-    padding: 24px 14px;
+  :root {
+    --page-padding: 24px 14px;
+    --page-gap: 20px;
+    --panel-padding: 20px;
+  }
+  aside {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  aside nav {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: space-between;
+  }
+  .pageHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  h1 {
+    font-size: 28px;
+  }
+  .profileTitle {
+    flex-wrap: wrap;
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -466,7 +537,7 @@ a {
 .profileGrid {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
-  gap: 18px;
+  gap: var(--page-gap);
 }
 .profileGrid .panel {
   margin-top: 0;
@@ -503,6 +574,7 @@ a {
 }
 .detailList span {
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 .stackActions {
   display: grid;
@@ -670,19 +742,6 @@ code {
   gap: 4px;
 }
 
-.themeToggle {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  color: var(--sidebar-text);
-  padding: 12px;
-  border-radius: 12px;
-  display: flex;
-  gap: 11px;
-  align-items: center;
-  text-align: left;
-}
-
 .themeToggle:hover {
   background: var(--sidebar-hover);
   color: var(--sidebar-heading);
@@ -720,3 +779,24 @@ code {
 }
 
 .passwordBox,.passwordForm{display:flex;flex-direction:column;gap:12px;margin-top:12px}.passwordBox input,.passwordForm input{width:100%;margin-top:6px}.passwordForm label{display:flex;flex-direction:column;font-size:13px;font-weight:600;gap:2px}.securityPanel{max-width:620px}.formError{color:#dc2626;font-size:13px;margin:0}.passwordForm .primary,.passwordBox .primary{align-self:flex-start}
+
+.nav:focus-visible,
+.logout:focus-visible,
+.themeToggle:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* The shared template owns spacing between page sections. */
+.pageTemplate > * {
+  min-width: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width: 560px) {
+  .detailList p {
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 12px;
+  }
+}
